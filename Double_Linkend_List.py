@@ -46,7 +46,7 @@ class LinkedList:
     def prepend(self, data):
         """링크드 리스트 가장 앞에 데이터를 추가시켜주는 메소드"""
         new_node = Node(data)
-        if  self.head is None:
+        if self.head is None:
             self.head = new_node
             self.tail = new_node
         else:
@@ -57,7 +57,7 @@ class LinkedList:
 
     def modelanswer_prepend(self, data):
         """연결 리스트 가장 앞에 데이터를 추가시켜주는 메소드"""
-        new_node = Node(data) # 새로운 노드 생성
+        new_node = Node(data)  # 새로운 노드 생성
 
         # head와 tail을 새로 만든 노드로 지정
         if self.head is None:
@@ -66,15 +66,58 @@ class LinkedList:
 
         # 이미 노드가 있으면
         else:
-            new_node.next = self.head # 새로운 노드의 다음 노드를 head 노드로 지정
-            self.head.prev = new_node # head 노드의 전 노드를 새로운 노드로 지정
-            self.head = new_node # head 노드 업데이트
+            new_node.next = self.head  # 새로운 노드의 다음 노드를 head 노드로 지정
+            self.head.prev = new_node  # head 노드의 전 노드를 새로운 노드로 지정
+            self.head = new_node  # head 노드 업데이트
+
+    def delete(self, node_to_delete):
+        """더블리 링크드 리스트 삭제 연산 메소드"""
+        return_node = node_to_delete.data
+
+        if node_to_delete is self.head and node_to_delete is self.tail:
+            self.head = None
+            self.tail = None
+        elif node_to_delete is self.head:
+            self.head = self.head.next
+        elif node_to_delete is self.tail:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        else:
+            next_temp_node = node_to_delete.next
+            perv_temp_node = node_to_delete.prev
+            next_temp_node.prev = perv_temp_node
+            perv_temp_node.next = next_temp_node
+        return return_node
+
+    def modelanswer_delete(self, node_to_delete):
+        """더블리 링크드 리스트 삭제 연산 메소드"""
+        # 링크드 리스트에서 마지막 남은 데이터를 삭제할 때
+        if node_to_delete is self.head and node_to_delete is self.tail:
+            self.tail = None
+            self.head = None
+
+        # 링크드 리스트 가장 앞 데이터 삭제할 때
+        elif node_to_delete is self.head:
+            self.head = self.head.next
+            self.head.prev = None
+
+        # 링크드 리스트 가장 뒤 데이터 삭제할 떄
+        elif node_to_delete is self.tail:
+            self.tail = self.tail.prev
+            self.tail.next = None
+
+        # 두 노드 사이에 있는 데이터 삭제할 때
+        else:
+            node_to_delete.prev.next = node_to_delete.next
+            node_to_delete.next.prev = node_to_delete.prev
+
+        # 삭제하는 노드 데이터 리턴
+        return node_to_delete.data
 
     def find_node_at(self, index):
         """링크드 리스트 접근 연산 메소드. 파라미터 인덱스는 항상 있다고 가정한다"""
-
-        iterator = self.head # 링크드 리스트를 돌기 위해 필요한 노드 변수
-
+        # 링크드 리스트를 돌기 위해 필요한 노드 변수
+        iterator = self.head
         # index 번째 있는 노드로 간다
         for _ in range(index):
             iterator = iterator.next

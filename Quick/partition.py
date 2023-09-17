@@ -6,15 +6,17 @@ def swap_elements(my_list, index1, index2):
 
 # 퀵 정렬에서 사용되는 partition 함수
 def partition(my_list, start, end):
-    # 여기에 코드를 작성하세요
+    i = start
+    b = start
     p = end
-    b = 0
-    for i in range(end):
-        if my_list[i] < my_list[p]:
+    while i < p:
+        if my_list[i] <= my_list[p]:
             swap_elements(my_list, i, b)
             b += 1
+        i += 1
     swap_elements(my_list, b, p)
-    return b
+    p = b
+    return p
    
 
 # 테스트 코드 1
